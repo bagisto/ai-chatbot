@@ -1,1 +1,87 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>ChatBot</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Fonts Link For Icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <div class="relativeItem card">
+      <button class="open-button" onclick="openForm()">
+        <i class="fa-brands fa-rocketchat"></i>
+      </button>
+      <div class="chat-popup" id="myForm">
+        <div class="container">
+          <div class="closeicon" onclick="closeForm()">
+            <i class="fa-solid fa-xmark"></i>
+          </div>
+          <!-- Chats container -->
+          <div class="chat-container">
+            <!-- <div class="chat incoming" style="display: none;" id="chat-ai-response">
+              <div class="chat-content">
+                <div class="chat-details">
+                  <i class="fa-solid fa-headset"></i>
+
+                  <p>
+                    Bagisto is a fantastic open-source eCommerce platform that
+                    allows businesses to create modern online stores easily.
+                    Bagisto offers a wide range of customizable features to meet
+                    the specific needs of any online business.<br />Source:
+                    https://docs.bagisto.com/2.0/introduction/introductions.html
+                  </p>
+                </div>
+                <span
+                  onclick="copyResponse(this)"
+                  class="material-symbols-rounded"
+                  >content_copy</span
+                >
+              </div>
+            </div> -->
+          </div>
+          <!-- Typing container -->
+          <div class="typing-container">
+            <div class="typing-inner-container">
+              <div class="typing-content">
+                <div class="typing-textarea">
+                  <textarea
+                    id="chat-input"
+                    spellcheck="false"
+                    id="send-btn"
+                    placeholder="Enter a prompt here"
+                    required
+                  ></textarea>
+                  <button
+                    type="submit"
+                    onclick="handleOutgoingChat()"
+                    class="btn"
+                  >
+                    <i class="fa-solid fa-paper-plane"></i>
+                  </button>
+                </div>
+                <div class="typing-controls">
+                  <span id="delete-btn" class="material-symbols-rounded"
+                    ><i class="fa-solid fa-trash"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
