@@ -17,7 +17,6 @@ const loadDataFromLocalstorage = () => {
 
   // Load chat history from local storage or use default text if no saved chats exist
   chatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
-  
 };
 
 // Create a new chat element with specified content and class
@@ -167,6 +166,15 @@ const isValidJson = (str) => {
 const fetchChat = async (userText, incomingChatDiv) => {
   const url = "http://192.168.15.108:23456/chat";
   const pElement = document.createElement("p");
+
+  const timeStamp = Date.now();
+
+  pElement.id = "chat-response-" + timeStamp; // Add id to pElement
+  // incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
+
+  incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
+
+  const msgEle = document.getElementById("chat-response-" + timeStamp);
   const response = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
@@ -183,6 +191,7 @@ const fetchChat = async (userText, incomingChatDiv) => {
   });
   const reader = response.body.getReader();
 
+  incomingChatDiv.querySelector(".typing-animation").remove();
   let message = "";
   while (true) {
     const { value, done } = await reader.read();
@@ -203,6 +212,7 @@ const fetchChat = async (userText, incomingChatDiv) => {
       }
     }
 
+    let thisResponse = response;
     if (
       !isFailed &&
       response &&
@@ -211,7 +221,6 @@ const fetchChat = async (userText, incomingChatDiv) => {
       !response.includes("Human:") &&
       !response.includes("AI:")
     ) {
-      let thisResponse = response;
       thisResponse = thisResponse.replaceAll("\n", "<br>");
       thisResponse = thisResponse.replaceAll("\n\n", "<br>");
       message += thisResponse;
@@ -222,11 +231,60 @@ const fetchChat = async (userText, incomingChatDiv) => {
       break;
     }
     if (message) {
-      pElement.innerHTML = message;
+      console.warn(message);
+
+      // msgEle.innerHTML = message;
+      if (msgEle) {
+        setTimeout(() => {
+          msgEle.insertAdjacentHTML("beforeend", thisResponse);
+        }, 50);
+
+        setTimeout(() => {
+          chatContainer.scrollTo(0, chatContainer.scrollHeight);
+        }, 100);
+      }
     }
   }
-  incomingChatDiv.querySelector(".typing-animation").remove();
-  incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
+  const parsedMessage = createMessage(message);
+  msgEle.innerHTML = parsedMessage;
+  setTimeout(() => {
+    chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  }, 100);
+
   localStorage.setItem("all-chats", chatContainer.innerHTML);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
+};
+
+const isValidUrl = (str) => {
+  let urlPattern = new RegExp(
+    "^(https?:\\/\\/)?" + // validate protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+      "(\\#[-a-z\\d_]*)?$",
+    "i"
+  ); // validate fragment locator
+  return !!urlPattern.test(str);
+};
+
+const createMessage = (message) => {
+  let replacedStr = message.replaceAll("<br>", " <br> ") || "";
+
+  replacedStr = replacedStr.split(" ");
+
+  let parsedMsg = replacedStr
+    ?.map((str) => {
+      let dot = "";
+      if (str.charAt(str.length - 1) === ".") {
+        str = str.substring(0, str.length - 1);
+        dot = ".";
+      }
+      if (isValidUrl(str)) {
+        return `<a target="_blank" href="${str}">${str}</a>` + dot;
+      }
+      return str;
+    })
+    .join(" ");
+  return parsedMsg;
 };

@@ -342,6 +342,9 @@ positionrelative;} */
   color: var(--text-color);
   border-radius: 0.625rem 0.625rem 0 0;
 }
+.chat-content a {
+  color: red;
+}
 /* @keyframes shake {
   0% {
     rotate: 0;
