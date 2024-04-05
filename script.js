@@ -2,7 +2,6 @@ const chatInput = document.querySelector("#chat-input");
 const sendButton = document.querySelector("#send-btn");
 const chatContainer = document.querySelector(".chat-container");
 const themeButton = document.querySelector("#theme-btn");
-const deleteButton = document.querySelector("#delete-btn");
 
 let userText = null;
 const API_KEY = "API_KEY"; // Paste your API key here
@@ -76,7 +75,7 @@ const showTypingAnimation = () => {
   // Display the typing animation and call the getChatResponse function
   const html = `<div class="chat-content">
                     <div class="chat-details">
-                    <i class="fa-solid fa-headset"></i>                        
+                    <i class="fa-solid fa-headset icon-chat"></i>                        
                     <div class="typing-animation">
                             <div class="typing-dot" style="--delay: 0.2s"></div>
                             <div class="typing-dot" style="--delay: 0.3s"></div>
@@ -100,7 +99,7 @@ const handleOutgoingChat = () => {
   chatInput.style.height = `${initialInputHeight}px`;
   const html = `<div class="chat-content">
                     <div class="chat-details">
-                    <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-user icon-chat"></i>
                         <p>${userText}</p>
                     </div>
                 </div>`;
@@ -112,14 +111,6 @@ const handleOutgoingChat = () => {
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
   setTimeout(showTypingAnimation, 500);
 };
-
-deleteButton.addEventListener("click", () => {
-  // Remove the chats from local storage and call loadDataFromLocalstorage function
-  if (confirm("Are you sure you want to clear chat history?")) {
-    localStorage.removeItem("all-chats");
-    loadDataFromLocalstorage();
-  }
-});
 
 const initialInputHeight = chatInput.scrollHeight;
 chatInput.addEventListener("input", () => {
