@@ -23,7 +23,7 @@
       <button class="open-button" onclick="openForm()">
         <i class="fa-solid fa-message"></i>
       </button>
-      <div class="chat-popup" id="myForm">
+      <div class="chat-popup" id="chat-popup">
         <div class="container">
           <div class="closeicon" onclick="closeForm()">
             <image src="./icons/logo.png" alt="Bagisto Logo" width="96" />
@@ -31,26 +31,10 @@
           </div>
           <!-- Chats container -->
           <div class="chat-container">
-            <!-- <div class="chat incoming" style="display: none;" id="chat-ai-response">
-              <div class="chat-content">
-                <div class="chat-details">
-                  <i class="fa-solid fa-headset"></i>
-
-                  <p>
-                    Bagisto is a fantastic open-source eCommerce platform that
-                    allows businesses to create modern online stores easily.
-                    Bagisto offers a wide range of customizable features to meet
-                    the specific needs of any online business.<br />Source:
-                    https://docs.bagisto.com/2.0/introduction/introductions.html
-                  </p>
-                </div>
-                <span
-                  onclick="copyResponse(this)"
-                  class="material-symbols-rounded"
-                  >content_copy</span
-                >
-              </div>
-            </div> -->
+            <div class="welcome-msg">
+              <p>Howdy 👋🏻</p>
+              <p>How can we help you?</p>
+            </div>
           </div>
           <!-- Typing container -->
           <div class="typing-container">
@@ -60,14 +44,13 @@
                   <textarea
                     id="chat-input"
                     spellcheck="false"
-                    id="send-btn"
                     placeholder="Enter a prompt here"
-                    required
                   ></textarea>
                   <button
                     type="submit"
                     onclick="handleOutgoingChat()"
                     class="btn"
+                    id="submit-btn"
                   >
                     <i class="fa-solid fa-paper-plane"></i>
                   </button>

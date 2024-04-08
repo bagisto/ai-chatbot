@@ -6,7 +6,7 @@
 (function(){
     window.mychat = window.mychat || {};
     var iframe2 = document.createElement('div');
-    iframe2.id = "iframe2";
+    iframe2.id = "chatbot-iframe-container";
     var styles = {
         "border": "0px",
         "background-color": "transparent",
@@ -14,19 +14,19 @@
         "z-index": "2147483639",
         "position": "fixed",
         "bottom": "0px",
-        "width": window.mychat.iframeWidth,
-        "height": window.mychat.iframeHeight,
+        "width": "96px",
+        "height": "96px",
         "overflow": "hidden",
         "opacity": "1",
-        "max-width": "100%",
+        "max-width": "26rem",
         "right": "0px",
-        "max-height": "100%"
+        "max-height": "42rem"
     };
     Object.assign(iframe2.style, styles);
     var iframe1 = document.createElement('iframe');
     // chat source (external url)
     iframe1.src = 'http://192.168.15.81/NextJs/chatbot/';
-    iframe1.id = "iframe1";
+    iframe1.id = "chatbot-iframe";
     iframe1.allow = "autoplay; camera; microphone";
     var styles = {
         "pointer-events": "all",

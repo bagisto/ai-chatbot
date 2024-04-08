@@ -1,7 +1,14 @@
 const chatInput = document.querySelector("#chat-input");
-const sendButton = document.querySelector("#send-btn");
+const sendButton = document.querySelector("#submit-btn");
 const chatContainer = document.querySelector(".chat-container");
 const themeButton = document.querySelector("#theme-btn");
+let chatIframeContainer = null;
+
+window.setTimeout(function () {
+  chatIframeContainer = parent.document.getElementById(
+    "chatbot-iframe-container"
+  );
+}, 1000);
 
 let userText = null;
 const API_KEY = "API_KEY"; // Paste your API key here
@@ -28,39 +35,7 @@ const createChatElement = (content, className) => {
 
 // Fetch a chat response from the API and display it in the chat interface
 const getChatResponse = async (incomingChatDiv, item = true) => {
-  // const pElement = document.createElement("p");
-
   await fetchChat(userText, incomingChatDiv);
-  // let index = 0;
-  // const intervalId = setInterval(() => {
-  //   if (index < message.length) {
-  //     pElement.insertAdjacentHTML('beforeend', message.charAt(index));
-  //     index++;
-  //   } else {
-  //     clearInterval(intervalId);
-  //   }
-  // }, 50);
-
-  // pElement.innerHTML = message;
-  // Remove the typing animation, append the paragraph element, and save the chats to local storage
-  /* incomingChatDiv.querySelector(".typing-animation").remove();
-  incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
-  localStorage.setItem("all-chats", chatContainer.innerHTML);
-  chatContainer.scrollTo(0, chatContainer.scrollHeight); */
-  // const customMessage = `<div class="custom-message">${message}</div>`;
-  // const customMessageDiv = createChatElement(customMessage, "custom");
-  // chatContainer.appendChild(customMessageDiv);
-  // chatContainer.scrollTo(0, chatContainer.scrollHeight);
-  // incomingChatDiv.querySelector(".chat-details").appendChild(customMessage);
-
-  // const defaultCustomText =
-  //   "Thank you for using our service!Thank you for using our service!";
-  // const customTextDiv = document.getElementById("custom-text");
-  /* if (customTextDiv) {
-    customTextDiv.innerHTML = defaultCustomText;
-  } else {
-    console.error("Element with ID 'custom-text' not found!");
-  } */
 };
 
 const copyResponse = (copyBtn) => {
@@ -128,18 +103,23 @@ chatInput.addEventListener("keydown", (e) => {
   }
 });
 
-loadDataFromLocalstorage();
+// loadDataFromLocalstorage();
 // sendButton.addEventListener("click", handleOutgoingChat);
 function openForm() {
-  const form = document.getElementById("myForm");
+  const form = document.getElementById("chat-popup");
   form.style.display = "block";
+  if (chatIframeContainer) {
+    chatIframeContainer.style.height = "100%";
+    chatIframeContainer.style.width = "100%";
+  }
+
   setTimeout(() => {
     chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom of the chat container
   }, 300);
 }
 
 function closeForm() {
-  const form = document.getElementById("myForm");
+  const form = document.getElementById("chat-popup");
   // Set opacity to 0 for fade-out effect
   form.style.display = "none";
   // form.style.animation = "shake 0.5s ease-in both;";
@@ -155,13 +135,12 @@ const isValidJson = (str) => {
 };
 
 const fetchChat = async (userText, incomingChatDiv) => {
-  const url = "http://192.168.15.108:23456/chat";
+  const url = "https://ask.bagisto.com:5000/chat";
   const pElement = document.createElement("p");
 
   const timeStamp = Date.now();
 
   pElement.id = "chat-response-" + timeStamp; // Add id to pElement
-  // incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
 
   incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
 
@@ -170,8 +149,6 @@ const fetchChat = async (userText, incomingChatDiv) => {
     method: "POST",
     body: JSON.stringify({
       query: userText,
-      /* document_cache: docCached,
-        history: historyCached, */
     }),
     headers: {
       "Content-Type": "application/json",
@@ -242,7 +219,7 @@ const fetchChat = async (userText, incomingChatDiv) => {
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
   }, 100);
 
-  localStorage.setItem("all-chats", chatContainer.innerHTML);
+  // localStorage.setItem("all-chats", chatContainer.innerHTML);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
 };
 
@@ -279,3 +256,11 @@ const createMessage = (message) => {
     .join(" ");
   return parsedMsg;
 };
+
+
+chatInput.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+      event.preventDefault();
+      sendButton.click();
+  }
+}, true);
