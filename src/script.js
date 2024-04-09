@@ -4,6 +4,7 @@ const chatContainer = document.querySelector(".chat-container");
 const themeButton = document.querySelector("#theme-btn");
 
 const API_KEY = "API_KEY"; // Paste your API key here
+var isReqInProcess = false;
 
 // Load saved chats and theme from local storage and apply/add them to the page
 const loadDataFromLocalstorage = () => {
@@ -62,6 +63,7 @@ const handleOutgoingChat = () => {
   let userText = chatInput.value.trim(); // Get chatInput value and remove extra spaces
   if (!userText) return; // If chatInput is empty return from here
   // Clear the input field and reset its height
+  if (isReqInProcess) return;
   chatInput.value = "";
   chatInput.style.height = `${initialInputHeight}px`;
   const html = `<div class="chat-content">
@@ -133,6 +135,8 @@ const isValidJson = (str) => {
 
 const fetchChat = async (query, incomingChatDiv) => {
   const url = "https://ask.bagisto.com:5000/chat";
+  chatInput.disabled = true;
+  isReqInProcess = true;
   const pElement = document.createElement("p");
 
   const timeStamp = Date.now();
@@ -196,9 +200,7 @@ const fetchChat = async (query, incomingChatDiv) => {
     if (message) {
       // msgEle.innerHTML = message;
       if (msgEle) {
-        setTimeout(() => {
-          msgEle.insertAdjacentHTML("beforeend", thisResponse);
-        }, 50);
+        msgEle.insertAdjacentHTML("beforeend", thisResponse);
 
         setTimeout(() => {
           chatContainer.scrollTo(0, chatContainer.scrollHeight);
@@ -212,6 +214,8 @@ const fetchChat = async (query, incomingChatDiv) => {
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
   }, 100);
 
+  chatInput.disabled = false;
+  isReqInProcess = false;
   // localStorage.setItem("all-chats", chatContainer.innerHTML);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
 };
@@ -237,12 +241,22 @@ const createMessage = (message) => {
   let parsedMsg = replacedStr
     ?.map((str) => {
       let dot = "";
+      let parsedStr = str;
       if (str.charAt(str.length - 1) === ".") {
-        str = str.substring(0, str.length - 1);
+        parsedStr = str.substring(0, str.length - 1);
         dot = ".";
       }
-      if (isValidUrl(str)) {
-        return `<a target="_blank" href="${str}">${str}</a>` + dot;
+
+      if (parsedStr.charAt(0) === "<") {
+        parsedStr = parsedStr.substring(1);
+      }
+
+      if (parsedStr.charAt(parsedStr.length - 1) === ">") {
+        parsedStr = parsedStr.substring(0, parsedStr.length - 1);
+      }
+
+      if (isValidUrl(parsedStr)) {
+        return `<a target="_blank" href="${parsedStr}">${parsedStr}</a>` + dot;
       }
       return str;
     })

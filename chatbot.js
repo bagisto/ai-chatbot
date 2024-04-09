@@ -1,8 +1,3 @@
-/**
- * Widget Embed iframe code
- * (also external domain)
- *
- */
 (function () {
   let container = document.createElement("div");
   container.id = "chatbot-iframe-container";
