@@ -24,7 +24,7 @@
   Object.assign(container.style, containerStyles);
   let chatFrame = document.createElement("iframe");
   // chat source (external url)
-  chatFrame.src = "http://192.168.15.81/NextJs/chatbot";
+  chatFrame.src = "https://vikastiwari-webkul.github.io/ai-chatbot.github.io/";
   chatFrame.id = "chatbot-iframe";
   let styles = {
     "pointer-events": "all",
