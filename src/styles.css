@@ -125,6 +125,11 @@ span.material-symbols-rounded {
 .chat .chat-details p.error {
   color: var(--text-error);
 }
+.warning-msg {
+  color:red;
+  padding: 12px;
+  font-size: 16px;
+}
 .fa-headset,
 .fa-user,
 .fa-rocketchat {
@@ -247,6 +252,7 @@ span.material-symbols-rounded {
   align-items: center;
   height: 100%;
   font-size: 24px;
+  padding: 12px 0;
   justify-content: center;
 }
 

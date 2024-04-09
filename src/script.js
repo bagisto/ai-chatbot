@@ -3,7 +3,6 @@ const sendButton = document.querySelector("#submit-btn");
 const chatContainer = document.querySelector(".chat-container");
 const themeButton = document.querySelector("#theme-btn");
 
-const API_KEY = "API_KEY"; // Paste your API key here
 var isReqInProcess = false;
 
 // Load saved chats and theme from local storage and apply/add them to the page
@@ -17,6 +16,26 @@ const loadDataFromLocalstorage = () => {
   // Load chat history from local storage or use default text if no saved chats exist
   chatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
 };
+
+const checkValidIpv6 = async () => {
+  const response = await fetch("https://ipapi.co/json/");
+  const data = await response.json();
+
+  if (data.ip && data.version === "IPv6") {
+    return true;
+  } else {
+    const welcomeMessage = document.querySelector(".welcome-msg");
+    if (welcomeMessage) {
+      welcomeMessage.innerHTML =
+        "<p class='warning-msg'>Please upgrade to IPv6 to use chatbot</p>";
+    }
+    const typingContainer = document.querySelector(".typing-inner-container");
+    typingContainer.innerHTML = "";
+    return false;
+  }
+};
+
+checkValidIpv6();
 
 // Create a new chat element with specified content and class
 const createChatElement = (content, className) => {
@@ -59,11 +78,13 @@ const showTypingAnimation = (query) => {
   getChatResponse(incomingChatDiv, query, false);
 };
 
-const handleOutgoingChat = () => {
+const handleOutgoingChat = async () => {
   let userText = chatInput.value.trim(); // Get chatInput value and remove extra spaces
   if (!userText) return; // If chatInput is empty return from here
   // Clear the input field and reset its height
   if (isReqInProcess) return;
+
+  // if (!await checkValidIpv6()) return;
   chatInput.value = "";
   chatInput.style.height = `${initialInputHeight}px`;
   const html = `<div class="chat-content">
@@ -99,16 +120,10 @@ chatInput.addEventListener("keydown", (e) => {
   }
 });
 
-// loadDataFromLocalstorage();
-// sendButton.addEventListener("click", handleOutgoingChat);
 function openForm() {
   const form = document.getElementById("chat-popup");
   form.style.display = "block";
   window.parent.postMessage("chatbot.formOpen", "*");
-  // if (chatIframeContainer) {
-  //   chatIframeContainer.style.height = "100%";
-  //   chatIframeContainer.style.width = "100%";
-  // }
 
   setTimeout(() => {
     chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom of the chat container
