@@ -2,15 +2,7 @@ const chatInput = document.querySelector("#chat-input");
 const sendButton = document.querySelector("#submit-btn");
 const chatContainer = document.querySelector(".chat-container");
 const themeButton = document.querySelector("#theme-btn");
-let chatIframeContainer = null;
 
-window.setTimeout(function () {
-  chatIframeContainer = parent.document.getElementById(
-    "chatbot-iframe-container"
-  );
-}, 1000);
-
-let userText = null;
 const API_KEY = "API_KEY"; // Paste your API key here
 
 // Load saved chats and theme from local storage and apply/add them to the page
@@ -34,8 +26,8 @@ const createChatElement = (content, className) => {
 };
 
 // Fetch a chat response from the API and display it in the chat interface
-const getChatResponse = async (incomingChatDiv, item = true) => {
-  await fetchChat(userText, incomingChatDiv);
+const getChatResponse = async (incomingChatDiv, query, item = true) => {
+  await fetchChat(query, incomingChatDiv);
 };
 
 const copyResponse = (copyBtn) => {
@@ -46,7 +38,7 @@ const copyResponse = (copyBtn) => {
   setTimeout(() => (copyBtn.textContent = "content_copy"), 1000);
 };
 
-const showTypingAnimation = () => {
+const showTypingAnimation = (query) => {
   // Display the typing animation and call the getChatResponse function
   const html = `<div class="chat-content">
                     <div class="chat-details">
@@ -63,11 +55,11 @@ const showTypingAnimation = () => {
   const incomingChatDiv = createChatElement(html, "incoming");
   chatContainer.appendChild(incomingChatDiv);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
-  getChatResponse(incomingChatDiv, false);
+  getChatResponse(incomingChatDiv, query, false);
 };
 
 const handleOutgoingChat = () => {
-  userText = chatInput.value.trim(); // Get chatInput value and remove extra spaces
+  let userText = chatInput.value.trim(); // Get chatInput value and remove extra spaces
   if (!userText) return; // If chatInput is empty return from here
   // Clear the input field and reset its height
   chatInput.value = "";
@@ -84,7 +76,9 @@ const handleOutgoingChat = () => {
   chatContainer.querySelector(".default-text")?.remove();
   chatContainer.appendChild(outgoingChatDiv);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
-  setTimeout(showTypingAnimation, 500);
+  setTimeout(() => {
+    showTypingAnimation(userText);
+  }, 500);
 };
 
 const initialInputHeight = chatInput.scrollHeight;
@@ -108,10 +102,11 @@ chatInput.addEventListener("keydown", (e) => {
 function openForm() {
   const form = document.getElementById("chat-popup");
   form.style.display = "block";
-  if (chatIframeContainer) {
-    chatIframeContainer.style.height = "100%";
-    chatIframeContainer.style.width = "100%";
-  }
+  window.parent.postMessage("chatbot.formOpen", "*");
+  // if (chatIframeContainer) {
+  //   chatIframeContainer.style.height = "100%";
+  //   chatIframeContainer.style.width = "100%";
+  // }
 
   setTimeout(() => {
     chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom of the chat container
@@ -122,6 +117,8 @@ function closeForm() {
   const form = document.getElementById("chat-popup");
   // Set opacity to 0 for fade-out effect
   form.style.display = "none";
+
+  window.parent.postMessage("chatbot.formClose", "*");
   // form.style.animation = "shake 0.5s ease-in both;";
 }
 
@@ -134,7 +131,7 @@ const isValidJson = (str) => {
   return true;
 };
 
-const fetchChat = async (userText, incomingChatDiv) => {
+const fetchChat = async (query, incomingChatDiv) => {
   const url = "https://ask.bagisto.com:5000/chat";
   const pElement = document.createElement("p");
 
@@ -145,10 +142,11 @@ const fetchChat = async (userText, incomingChatDiv) => {
   incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
 
   const msgEle = document.getElementById("chat-response-" + timeStamp);
+
   const response = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
-      query: userText,
+      query: query,
     }),
     headers: {
       "Content-Type": "application/json",
@@ -193,14 +191,9 @@ const fetchChat = async (userText, incomingChatDiv) => {
       thisResponse = thisResponse.replaceAll("\n\n", "<br>");
       message += thisResponse;
     } else {
-      console.warn("while not in true cond ==> ", {
-        response,
-      });
       break;
     }
     if (message) {
-      console.warn(message);
-
       // msgEle.innerHTML = message;
       if (msgEle) {
         setTimeout(() => {
@@ -257,10 +250,13 @@ const createMessage = (message) => {
   return parsedMsg;
 };
 
-
-chatInput.addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
+chatInput.addEventListener(
+  "keydown",
+  function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
       sendButton.click();
-  }
-}, true);
+    }
+  },
+  true
+);

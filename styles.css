@@ -118,7 +118,7 @@ span.material-symbols-rounded {
 .chat .chat-details p {
   white-space: pre-wrap;
   font-size: 1rem;
-  padding: 0 .25rem 0 1.5625rem;
+  padding: 0.2rem .25rem 0 1.5625rem;
   color: var(--text-color);
   word-break: break-word;
 }
@@ -133,6 +133,7 @@ span.material-symbols-rounded {
 .chat .typing-animation {
   padding-left: 1.5625rem;
   display: inline-flex;
+  margin-top: 12px;
 }
 .typing-animation .typing-dot {
   height: 0.4375rem;
