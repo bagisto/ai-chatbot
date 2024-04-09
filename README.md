@@ -10,8 +10,8 @@ Add this script in website.
 <script
   type="text/javascript"
   async
-  src="https://vikastiwari-webkul.github.io/ai-chatbot.github.io/chatbot.js"
+  src="https://vikastiwari-webkul.github.io/ai-chatbot/chatbot.js"
 ></script>
 ```
 
-See Demo: [AI ChatBot for Bagisto](https://vikastiwari-webkul.github.io/ai-chatbot.github.io/demo.html)
+See Demo: [AI ChatBot for Bagisto](https://vikastiwari-webkul.github.io/ai-chatbot/demo.html)
