@@ -270,7 +270,7 @@ const createMessage = (message) => {
         parsedStr = parsedStr.substring(0, parsedStr.length - 1);
       }
 
-      if (isValidUrl(parsedStr)) {
+      if (!parsedStr.includes(".json") && isValidUrl(parsedStr)) {
         return `<a target="_blank" href="${parsedStr}">${parsedStr}</a>` + dot;
       }
       return str;
