@@ -162,6 +162,9 @@ const fetchChat = async (query, incomingChatDiv) => {
 
   const msgEle = document.getElementById("chat-response-" + timeStamp);
 
+  const typingDiv = incomingChatDiv.querySelector(".typing-animation");
+
+  let message = "";
   const response = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
@@ -172,12 +175,11 @@ const fetchChat = async (query, incomingChatDiv) => {
     },
   }).catch((error) => {
     // Your error is here!
-    console.log(error);
+    message = "Something went wrong."
+    pElement.style.color = "red";
+    typingDiv.remove();
   });
   const reader = response.body.getReader();
-
-  incomingChatDiv.querySelector(".typing-animation").remove();
-  let message = "";
   while (true) {
     const { value, done } = await reader.read();
     if (done) break;
@@ -186,6 +188,10 @@ const fetchChat = async (query, incomingChatDiv) => {
     response = response.replaceAll("____new_line____", "<br/>");
 
     let isFailed = false;
+
+    if (typingDiv) {
+      typingDiv.remove();
+    }
 
     if (response && isValidJson(response)) {
       const parsedResponse = JSON.parse(response);
@@ -270,7 +276,11 @@ const createMessage = (message) => {
         parsedStr = parsedStr.substring(0, parsedStr.length - 1);
       }
 
-      if (!parsedStr.includes(".json") && isValidUrl(parsedStr)) {
+      if (
+        !parsedStr.includes(".json") &&
+        !parsedStr.includes(".xml") &&
+        isValidUrl(parsedStr)
+      ) {
         return `<a target="_blank" href="${parsedStr}">${parsedStr}</a>` + dot;
       }
       return str;
