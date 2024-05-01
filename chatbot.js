@@ -38,6 +38,10 @@
   container.appendChild(chatFrame);
   document.querySelector("body").appendChild(container);
 
+  if (window?.chatbotConfig?.url) {
+    localStorage.setItem("chatbotUrl", window.chatbotConfig.url);
+  }
+
   const chatContainer = document.getElementById("chatbot-iframe-container");
 
   window.addEventListener("message", handleMessage, false);

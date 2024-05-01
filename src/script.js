@@ -149,7 +149,8 @@ const isValidJson = (str) => {
 };
 
 const fetchChat = async (query, incomingChatDiv) => {
-  const url = window.parent?.chatbotConfig?.url || "https://ask.bagisto.com:5000/chat";
+  const url =
+    localStorage.getItem("chatbotUrl") || "https://ask.bagisto.com:5000/chat";
   chatInput.disabled = true;
   isReqInProcess = true;
   const pElement = document.createElement("p");
@@ -175,7 +176,7 @@ const fetchChat = async (query, incomingChatDiv) => {
     },
   }).catch((error) => {
     // Your error is here!
-    message = "Something went wrong."
+    message = "Something went wrong.";
     pElement.style.color = "red";
     typingDiv.remove();
   });
