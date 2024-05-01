@@ -3,6 +3,8 @@ const sendButton = document.querySelector("#submit-btn");
 const chatContainer = document.querySelector(".chat-container");
 const themeButton = document.querySelector("#theme-btn");
 
+let url = "https://ask.bagisto.com:5000/chat";
+
 var isReqInProcess = false;
 
 // Load saved chats and theme from local storage and apply/add them to the page
@@ -16,6 +18,14 @@ const loadDataFromLocalstorage = () => {
   // Load chat history from local storage or use default text if no saved chats exist
   chatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
 };
+
+function fetchChatbotConfig(event) {
+  if (event.data.chatbotUrl) {
+    url = event.data.chatbotUrl;
+  }
+}
+
+window.addEventListener("message", fetchChatbotConfig, false);
 
 const checkValidIpv6 = async () => {
   const response = await fetch("https://ipapi.co/json/");
@@ -149,8 +159,7 @@ const isValidJson = (str) => {
 };
 
 const fetchChat = async (query, incomingChatDiv) => {
-  const url =
-    localStorage.getItem("chatbotUrl") || "https://ask.bagisto.com:5000/chat";
+  // const url = url;
   chatInput.disabled = true;
   isReqInProcess = true;
   const pElement = document.createElement("p");

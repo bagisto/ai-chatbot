@@ -38,10 +38,6 @@
   container.appendChild(chatFrame);
   document.querySelector("body").appendChild(container);
 
-  if (window?.chatbotConfig?.url) {
-    localStorage.setItem("chatbotUrl", window.chatbotConfig.url);
-  }
-
   const chatContainer = document.getElementById("chatbot-iframe-container");
 
   window.addEventListener("message", handleMessage, false);
@@ -55,5 +51,15 @@
       chatContainer.style.height = "96px";
       chatContainer.style.width = "96px";
     }
+  }
+
+  if (window.chatbotConfig?.url) {
+    setTimeout(() => {
+      const chatFrame = document.getElementById("chatbot-iframe");
+      chatFrame.contentWindow.postMessage(
+        { chatbotUrl: window.chatbotConfig.url },
+        "*"
+      );
+    }, 500);
   }
 })();
