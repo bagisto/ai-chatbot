@@ -4,7 +4,17 @@ AI Based Chatbot for Bagisto DOCS. Ask anything regarding Bagisto and get instan
 
 ## Installation
 
-Add this script in website.
+Add URL to window object in your HTML file.
+
+```html
+<script>
+  window.chatbotConfig = {
+    url: "your-ai-chatbot-url.com",
+  };
+</script>
+```
+
+Add Chatbot widget to your HTML file.
 
 ```html
 <script
