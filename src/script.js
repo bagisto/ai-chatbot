@@ -20,8 +20,13 @@ const loadDataFromLocalstorage = () => {
 };
 
 function fetchChatbotConfig(event) {
-  if (event.data.chatbotUrl) {
-    url = event.data.chatbotUrl;
+  if (event.data.url) {
+    url = event.data.url;
+  }
+
+  if (event.data.logoUrl) {
+    const logo = document.getElementById("chatbot-logo");
+    logo.src = event.data.logoUrl;
   }
 }
 

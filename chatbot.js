@@ -52,14 +52,10 @@
       chatContainer.style.width = "96px";
     }
   }
-
   if (window.chatbotConfig?.url) {
     setTimeout(() => {
       const chatFrame = document.getElementById("chatbot-iframe");
-      chatFrame.contentWindow.postMessage(
-        { chatbotUrl: window.chatbotConfig.url },
-        "*"
-      );
+      chatFrame.contentWindow.postMessage(chatbotConfig, "*");
     }, 500);
   }
 })();

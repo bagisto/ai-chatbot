@@ -10,6 +10,7 @@ Add URL to window object in your HTML file.
 <script>
   window.chatbotConfig = {
     url: "your-ai-chatbot-url.com",
+    logoUrl: "your-logo-url.png",
   };
 </script>
 ```
