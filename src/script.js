@@ -227,8 +227,7 @@ const fetchChat = async (query, incomingChatDiv) => {
       !response.includes("Human:") &&
       !response.includes("AI:")
     ) {
-      thisResponse = thisResponse.replaceAll("\n", "<br>");
-      thisResponse = thisResponse.replaceAll("\n\n", "<br>");
+      thisResponse = marked.parse(thisResponse);
       message += thisResponse;
     } else {
       break;
@@ -244,7 +243,7 @@ const fetchChat = async (query, incomingChatDiv) => {
       }
     }
   }
-  const parsedMessage = createMessage(message);
+  const parsedMessage = marked.parse(message);
   msgEle.innerHTML = parsedMessage;
   setTimeout(() => {
     chatContainer.scrollTo(0, chatContainer.scrollHeight);
