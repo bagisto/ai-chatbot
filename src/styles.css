@@ -115,13 +115,6 @@ span.material-symbols-rounded {
   object-fit: cover;
   border-radius: 0.125rem;
 }
-.chat .chat-details p {
-  white-space: pre-wrap;
-  font-size: 1rem;
-  padding: 0.2rem .25rem 0 1.5625rem;
-  color: var(--text-color);
-  word-break: break-word;
-}
 .chat .chat-details p.error {
   color: var(--text-error);
 }
@@ -240,7 +233,7 @@ span.material-symbols-rounded {
   border: 1px solid var(--outgoing-chat-bg);
 }
 .container {
-  max-width: 24rem;
+  width: 24rem;
   max-height: 40rem;
 }
 .icon-chat {
