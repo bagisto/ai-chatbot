@@ -228,20 +228,17 @@ const fetchChat = async (query, incomingChatDiv) => {
       !response.includes("Human:") &&
       !response.includes("AI:")
     ) {
-      thisResponse = marked.parse(thisResponse);
       message += thisResponse;
     } else {
       break;
     }
-    if (message) {
-      // msgEle.innerHTML = message;
-      if (msgEle) {
-        msgEle.insertAdjacentHTML("beforeend", thisResponse);
+    if (message && msgEle) {
+      const parsedMessage = marked.parse(message);
+      msgEle.innerHTML = parsedMessage;
 
-        setTimeout(() => {
-          chatContainer.scrollTo(0, chatContainer.scrollHeight);
-        }, 100);
-      }
+      setTimeout(() => {
+        chatContainer.scrollTo(0, chatContainer.scrollHeight);
+      }, 100);
     }
   }
   const parsedMessage = marked.parse(message);
