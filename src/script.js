@@ -172,6 +172,7 @@ const fetchChat = async (query, incomingChatDiv) => {
   const timeStamp = Date.now();
 
   pElement.id = "chat-response-" + timeStamp; // Add id to pElement
+  pElement.classList.add("chat-response");
 
   incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
 
@@ -251,8 +252,9 @@ const fetchChat = async (query, incomingChatDiv) => {
 
   chatInput.disabled = false;
   isReqInProcess = false;
-  // localStorage.setItem("all-chats", chatContainer.innerHTML);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  chatInput.focus();
+  chatInput.select();
 };
 
 const isValidUrl = (str) => {
