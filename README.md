@@ -1,4 +1,4 @@
-# AI ChatBot for Bagisto
+# AI ChatBot for Bagisto ( v2 )
 
 AI Based Chatbot for Bagisto DOCS. Ask anything regarding Bagisto and get instant response.
 
@@ -8,7 +8,6 @@ Add URL to window object in your HTML file.
 
 ```html
 <script>
- 
   window.chatbotConfig = {
       url: "chat-bot-url",
       logoUrl: "logo-url",
@@ -25,7 +24,7 @@ Add Chatbot widget to your HTML file.
 <script
   type="text/javascript"
   async
-  src="https://vikastiwari-webkul.github.io/ai-chatbot/chatbot.js"
+  src="https://github.com/VikasTiwari-Webkul/ai-chatbot/blob/v2-exported/chatbot.js"
 ></script>
 ```
 
