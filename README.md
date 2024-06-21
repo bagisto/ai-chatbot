@@ -8,10 +8,14 @@ Add URL to window object in your HTML file.
 
 ```html
 <script>
+ 
   window.chatbotConfig = {
-    url: "your-ai-chatbot-url.com",
-    logoUrl: "your-logo-url.png",
-  };
+      url: "chat-bot-url",
+      logoUrl: "logo-url",
+      appName:'chat-bot title',
+      imageAlt:'logo alt title',
+      chatBotIcon:'chat bot icon'
+    };
 </script>
 ```
 
