@@ -13,7 +13,8 @@ Add URL to window object in your HTML file.
       logoUrl: "logo-url",
       appName:'chat-bot title',
       imageAlt:'logo alt title',
-      chatBotIcon:'chat bot icon'
+      chatBotIcon:'chat bot icon',
+      welcomeNote:'welcome message'
     };
 </script>
 ```

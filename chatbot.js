@@ -8,8 +8,8 @@ let containerStyles = {
   "z-index": "2147483639",
   position: "fixed",
   bottom: "0px",
-  width: "96px",
-  height: "96px",
+  width: "300px",
+  height: "230px",
   overflow: "hidden",
   opacity: "1",
   "max-width": "26rem",
@@ -40,12 +40,24 @@ document.querySelector("body").appendChild(container);
 const chatContainer = document.getElementById("chatbot-iframe-container");
 window.addEventListener("message", handleMessage, false);
 window.addEventListener("message", copyToClipboard, false);
+window.addEventListener('message',handleWelcomeNote, false);
+function handleWelcomeNote(event) {
+  const message = event.data;
+  if(message ==='chatbot.welcomeNoteClose'){
+    localStorage.setItem('welcomeNote', 'false')
+  }
+}
 function handleMessage(event) {
   const message = event.data;
   if (message === "chatbot.formClose") {
     containerStyles.height = "966px";
     containerStyles.width = "446px";
   } else if (message === "chatbot.formOpen") {
+    let welcomeNote = localStorage.getItem('welcomeNote');
+    if(welcomeNote !== 'false'){
+      containerStyles.height = "230px";
+      containerStyles.width = "300px";
+    }
     containerStyles.height = "96px";
     containerStyles.width = "96px";
   }
@@ -70,6 +82,14 @@ if (window.chatbotConfig?.url) {
   setTimeout(() => {
     const chatFrame = document.getElementById("chatbot-iframe");
     chatFrame.contentWindow.postMessage(window.chatbotConfig, "*");
+    /**
+     *   post welcome note toggle data 
+     */
+    let welcomeNote = localStorage.getItem('welcomeNote');
+    if(welcomeNote !== 'false'){
+      console.log('welcomeNote',welcomeNote)
+      chatFrame.contentWindow.postMessage("chatbot.welcomeNoteOpen", "*");
+    }
   }, 500);
 }
 
