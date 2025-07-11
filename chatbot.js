@@ -19,7 +19,7 @@
   Object.assign(container.style, containerStyles);
   let chatFrame = document.createElement("iframe");
   // chat source (external url)
-  chatFrame.src = "https://vikastiwari-webkul.github.io/ai-chatbot/src/";
+  chatFrame.src = "https://bagisto.github.io/ai-chatbot/src/";
   chatFrame.id = "chatbot-iframe";
   let styles = {
     "pointer-events": "all",
