@@ -21,8 +21,8 @@ Add Chatbot widget to your HTML file.
 <script
   type="text/javascript"
   async
-  src="https://vikastiwari-webkul.github.io/ai-chatbot/chatbot.js"
+  src="https://bagisto.github.io/ai-chatbot/chatbot.js"
 ></script>
 ```
 
-See Demo: [AI ChatBot for Bagisto](https://vikastiwari-webkul.github.io/ai-chatbot/demo.html)
+See Demo: [AI ChatBot for Bagisto](https://bagisto.github.io/ai-chatbot/demo.html)
